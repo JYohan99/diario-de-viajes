@@ -99,7 +99,9 @@ export default function MapaPrincipal() {
 
   function handleLongPressMapa(e) {
     if (!modoRuta) return;
-    setPuntosRuta((prev) => [...prev, e.nativeEvent.coordinate]);
+    const { latitude, longitude } = e.nativeEvent.coordinate;
+    if (!latitude || !longitude) return;
+    setPuntosRuta((prev) => [...prev, { latitude, longitude }]);
   }
 
   function handleLongPressFoto(foto) {
