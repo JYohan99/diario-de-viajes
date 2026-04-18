@@ -97,6 +97,13 @@ export default function MapaPrincipal() {
     setBuscandoUbicacion(false);
   }
 
+  function handlePressMapa(e) {
+    if (!modoRuta) return;
+    const { latitude, longitude } = e.nativeEvent.coordinate;
+    if (!latitude || !longitude) return;
+    setPuntosRuta((prev) => [...prev, { latitude, longitude }]);
+  }
+
   function handleLongPressMapa(e) {
     if (!modoRuta) return;
     const { latitude, longitude } = e.nativeEvent.coordinate;
@@ -135,6 +142,7 @@ export default function MapaPrincipal() {
         style={s.mapa}
         provider={PROVIDER_DEFAULT}
         initialRegion={regionInicial}
+        onPress={handlePressMapa}
         onLongPress={handleLongPressMapa}>
         {/* Rutas */}
         <RutasEnMapa
