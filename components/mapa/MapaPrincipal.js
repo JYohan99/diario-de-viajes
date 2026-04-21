@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   StyleSheet,
   View,
@@ -11,91 +11,36 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import MapView, { Marker, PROVIDER_DEFAULT } from 'react-native-maps';
-import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
 import { colores, radios } from '../../theme';
-import { obtenerFotos, obtenerRutas } from '../../almacenamiento';
+import useMapa from '../../src/hooks/useMapa';
 import { RutasEnMapa, RutasUI } from './RutasMapa';
 
 const { width, height } = Dimensions.get('window');
 
 export default function MapaPrincipal() {
   const mapRef = useRef(null);
-  const [fotosConGPS, setFotosConGPS] = useState([]);
-  const [rutas, setRutas] = useState([]);
-  const [cargando, setCargando] = useState(true);
-  const [regionInicial, setRegionInicial] = useState(null);
+  const {
+    fotosConGPS,
+    rutas,
+    setRutas,
+    cargando,
+    regionInicial,
+    miUbicacion,
+    buscandoUbicacion,
+    cargarDatos,
+    irAMiUbicacion,
+  } = useMapa();
+  
+  // Estados de UI que quedan en el componente
   const [fotoAmpliada, setFotoAmpliada] = useState(null);
   const [indiceAmpliada, setIndiceAmpliada] = useState(0);
-  const [buscandoUbicacion, setBuscandoUbicacion] = useState(false);
-  const [miUbicacion, setMiUbicacion] = useState(null);
   const [mostrarRutas, setMostrarRutas] = useState(true);
   const [mostrarFotos, setMostrarFotos] = useState(true);
   const [modoRuta, setModoRuta] = useState(false);
   const [puntosRuta, setPuntosRuta] = useState([]);
   const [rutaSeleccionada, setRutaSeleccionada] = useState(null);
   const [modalVerRuta, setModalVerRuta] = useState(false);
-
-  useEffect(() => {
-    cargarDatos();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  async function cargarDatos() {
-    setCargando(true);
-    const datos = await obtenerFotos();
-    const conGPS = datos.filter((f) => f.latitud && f.longitud);
-    setFotosConGPS(conGPS);
-
-    const rutasGuardadas = await obtenerRutas();
-    setRutas(rutasGuardadas);
-
-    if (!regionInicial) {
-      if (conGPS.length > 0) {
-        const ultima = conGPS[conGPS.length - 1];
-        setRegionInicial({
-          latitude: ultima.latitud,
-          longitude: ultima.longitud,
-          latitudeDelta: 1,
-          longitudeDelta: 1,
-        });
-      } else {
-        setRegionInicial({
-          latitude: -34.9011,
-          longitude: -56.1645,
-          latitudeDelta: 10,
-          longitudeDelta: 10,
-        });
-      }
-    }
-    setCargando(false);
-  }
-
-  async function irAMiUbicacion() {
-    setBuscandoUbicacion(true);
-    try {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setBuscandoUbicacion(false);
-        return;
-      }
-      const loc = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Balanced,
-      });
-      const coords = {
-        latitude: loc.coords.latitude,
-        longitude: loc.coords.longitude,
-      };
-      setMiUbicacion(coords);
-      mapRef.current?.animateToRegion(
-        { ...coords, latitudeDelta: 0.02, longitudeDelta: 0.02 },
-        800
-      );
-    } catch (_e) {
-      /* sin ubicación */
-    }
-    setBuscandoUbicacion(false);
-  }
 
   function handlePressMapa(e) {
     if (!modoRuta) return;
@@ -124,6 +69,10 @@ export default function MapaPrincipal() {
     const indice = fotosConGPS.findIndex((f) => f.id === foto.id);
     setIndiceAmpliada(indice >= 0 ? indice : 0);
     setFotoAmpliada(foto);
+  }
+
+  function handleIrAMiUbicacion() {
+    irAMiUbicacion();
   }
 
   if (cargando || !regionInicial) {
@@ -219,7 +168,7 @@ export default function MapaPrincipal() {
         </TouchableOpacity>
         <TouchableOpacity
           style={s.botonFlotante}
-          onPress={irAMiUbicacion}
+          onPress={handleIrAMiUbicacion}
           disabled={buscandoUbicacion}>
           {buscandoUbicacion ? (
             <ActivityIndicator size="small" color={colores.primario} />
