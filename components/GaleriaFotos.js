@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import {
   View,
   Text,
@@ -14,26 +13,18 @@ import {
   ScrollView,
   TextInput,
 } from "react-native";
-
 import * as ImagePicker from "expo-image-picker";
-
 import { Ionicons } from "@expo/vector-icons";
-
 import MapView, { Marker } from "react-native-maps";
-
 import { colores, tipografia, espaciado, radios } from "../theme";
-
 import {
   obtenerFotos,
   agregarFotos,
   actualizarFoto,
   eliminarFoto,
 } from "../almacenamiento";
-
 import ModalEditar from "../src/components/galeria/ModalEditar";
-
 import ModalGPS from "../src/components/galeria/ModalGPS";
-
 import {
   formatearFecha,
   extraerCarpeta,
@@ -42,54 +33,31 @@ import {
 } from "../src/utils/galeria";
 
 const { width, height } = Dimensions.get("window");
-
 const TAM = (width - 2) / 3;
 
 // ─── COMPONENTE PRINCIPAL ────────────────────────────────
-
 export default function GaleriaFotos() {
   const [fotos, setFotos] = useState([]);
-
   const [cargando, setCargando] = useState(true);
-
   const [vista, setVista] = useState("fecha");
-
   const [carpetaAbierta, setCarpetaAbierta] = useState(null);
-
   const [fotoAmpliada, setFotoAmpliada] = useState(null);
-
   const [indiceAmpliada, setIndiceAmpliada] = useState(0);
-
   const [fotosNavegacion, setFotosNavegacion] = useState([]);
-
   const [modalDetalles, setModalDetalles] = useState(false);
-
   const [modalEditar, setModalEditar] = useState(false);
-
   const [fotoEditando, setFotoEditando] = useState(null);
-
   const [modalGPS, setModalGPS] = useState(false);
-
   const [ubicacionTemp, setUbicacionTemp] = useState(null);
-
   const [modoSeleccion, setModoSeleccion] = useState(false);
-
   const [seleccionadas, setSeleccionadas] = useState([]);
-
   const [modalAplicarGPS, setModalAplicarGPS] = useState(false);
-
   const [fotosParaGPS, setFotosParaGPS] = useState([]);
-
   const [seleccionadasGPS, setSeleccionadasGPS] = useState([]);
-
   const [ubicacionParaAplicar, setUbicacionParaAplicar] = useState(null);
-
   const [editFecha, setEditFecha] = useState("");
-
   const [editNota, setEditNota] = useState("");
-
   const [editLat, setEditLat] = useState("");
-
   const [editLng, setEditLng] = useState("");
 
   useEffect(() => {
@@ -98,16 +66,12 @@ export default function GaleriaFotos() {
 
   async function cargar() {
     setCargando(true);
-
     const datos = await obtenerFotos();
-
     setFotos(datos);
-
     setCargando(false);
   }
 
   // ─── IMPORTAR ──────────────────────────────────────────
-
   async function importarFotos() {
     const permiso = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -119,24 +83,16 @@ export default function GaleriaFotos() {
 
     const resultado = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ["images"],
-
       allowsMultipleSelection: true,
-
       quality: 1,
-
       exif: true,
     });
 
     if (resultado.canceled) return;
-
     setCargando(true);
-
     const fotosActuales = await obtenerFotos();
-
     const nuevas = [];
-
     let duplicados = 0;
-
     for (const asset of resultado.assets) {
       const nombre = asset.uri.split("/").pop().split("?")[0].toLowerCase();
 
@@ -160,11 +116,8 @@ export default function GaleriaFotos() {
         lng = null;
 
       if (asset.exif?.GPSLatitude) lat = asset.exif.GPSLatitude;
-
       if (asset.exif?.GPSLongitude) lng = asset.exif.GPSLongitude;
-
       let fecha = new Date().toISOString();
-
       if (asset.exif?.DateTimeOriginal) {
         try {
           const exifFecha = asset.exif.DateTimeOriginal.replace(
@@ -181,33 +134,21 @@ export default function GaleriaFotos() {
 
       nuevas.push({
         id: Date.now().toString() + Math.random().toString(36).slice(2),
-
         uri: asset.uri,
-
         nombreArchivo: nombre,
-
         carpeta: extraerCarpeta(asset.uri),
-
         fecha,
-
         latitud: lat,
-
         longitud: lng,
-
         nota: "",
-
         ancho: asset.width || 0,
-
         alto: asset.height || 0,
-
         tamaño: asset.fileSize || 0,
       });
     }
 
     const todas = await agregarFotos(nuevas);
-
     setFotos(todas || fotosActuales);
-
     setCargando(false);
 
     if (nuevas.length === 0 && duplicados > 0) {
@@ -228,7 +169,6 @@ export default function GaleriaFotos() {
   }
 
   // ─── SELECCIÓN MÚLTIPLE ────────────────────────────────
-
   function toggleSeleccion(id) {
     setSeleccionadas((prev) =>
       prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id],
@@ -243,25 +183,19 @@ export default function GaleriaFotos() {
 
       [
         { text: "Cancelar", style: "cancel" },
-
         {
           text: "Eliminar",
-
           style: "destructive",
 
           onPress: async () => {
             let actuales = [...fotos];
-
             for (const id of seleccionadas) {
               await eliminarFoto(id);
 
               actuales = actuales.filter((f) => f.id !== id);
             }
-
             setFotos(actuales);
-
             setSeleccionadas([]);
-
             setModoSeleccion(false);
           },
         },
@@ -270,43 +204,30 @@ export default function GaleriaFotos() {
   }
 
   // ─── EDITAR ────────────────────────────────────────────
-
   function abrirEditar(foto) {
     setFotoEditando(foto);
-
     setEditFecha(
       foto.fecha ? new Date(foto.fecha).toISOString().slice(0, 10) : "",
     );
-
     setEditNota(foto.nota || "");
-
     setEditLat(foto.latitud ? foto.latitud.toString() : "");
-
     setEditLng(foto.longitud ? foto.longitud.toString() : "");
-
     setUbicacionTemp(
       foto.latitud
         ? { latitude: foto.latitud, longitude: foto.longitud }
         : null,
     );
-
     setFotoAmpliada(null);
-
     setModalEditar(true);
   }
 
   async function guardarEdicion() {
     if (!fotoEditando) return;
-
     const lat = parseFloat(editLat);
-
     const lng = parseFloat(editLng);
-
     const cambios = {
       nota: editNota.trim(),
-
       latitud: !isNaN(lat) ? lat : null,
-
       longitud: !isNaN(lng) ? lng : null,
     };
 
@@ -321,9 +242,7 @@ export default function GaleriaFotos() {
     }
 
     const tieneNuevaUbicacion = !isNaN(lat) && !isNaN(lng);
-
     const fotoGuardadaId = fotoEditando.id;
-
     const actualizada = await actualizarFoto(fotoGuardadaId, cambios);
 
     if (actualizada) {
@@ -331,11 +250,8 @@ export default function GaleriaFotos() {
         prev.map((f) => (f.id === fotoGuardadaId ? actualizada : f)),
       );
     }
-
     setModalEditar(false);
-
     setFotoEditando(null);
-
     if (tieneNuevaUbicacion) {
       const otrasSinGPS = fotos.filter(
         (f) => f.id !== fotoGuardadaId && (!f.latitud || !f.longitud),
@@ -349,15 +265,11 @@ export default function GaleriaFotos() {
 
           [
             { text: "No", style: "cancel" },
-
             {
               text: "Elegir fotos",
-
               onPress: () => {
                 setFotosParaGPS(otrasSinGPS);
-
                 setUbicacionParaAplicar({ latitud: lat, longitud: lng });
-
                 setModalAplicarGPS(true);
               },
             },
