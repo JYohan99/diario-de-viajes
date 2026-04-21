@@ -1,6 +1,6 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const CLAVE_FOTOS = 'fotos_v2';
+const CLAVE_FOTOS = "fotos_v2";
 
 // ─── FOTOS ────────────────────────────────────────────────
 
@@ -9,7 +9,7 @@ export async function obtenerFotos() {
     const datos = await AsyncStorage.getItem(CLAVE_FOTOS);
     return datos ? JSON.parse(datos) : [];
   } catch (e) {
-    console.log('Error obtenerFotos:', e);
+    console.log("Error obtenerFotos:", e);
     return [];
   }
 }
@@ -19,7 +19,7 @@ export async function guardarFotos(fotos) {
     await AsyncStorage.setItem(CLAVE_FOTOS, JSON.stringify(fotos));
     return true;
   } catch (e) {
-    console.log('Error guardarFotos:', e);
+    console.log("Error guardarFotos:", e);
     return false;
   }
 }
@@ -31,7 +31,7 @@ export async function agregarFotos(nuevasFotos) {
     await guardarFotos(todas);
     return todas;
   } catch (e) {
-    console.log('Error agregarFotos:', e);
+    console.log("Error agregarFotos:", e);
     return null;
   }
 }
@@ -45,7 +45,7 @@ export async function actualizarFoto(id, cambios) {
     await guardarFotos(fotos);
     return fotos[indice];
   } catch (e) {
-    console.log('Error actualizarFoto:', e);
+    console.log("Error actualizarFoto:", e);
     return null;
   }
 }
@@ -57,7 +57,7 @@ export async function eliminarFoto(id) {
     await guardarFotos(nuevas);
     return true;
   } catch (e) {
-    console.log('Error eliminarFoto:', e);
+    console.log("Error eliminarFoto:", e);
     return false;
   }
 }
@@ -68,7 +68,7 @@ export async function exportarBackup() {
   try {
     const fotos = await obtenerFotos();
     return JSON.stringify({
-      version: '2.0',
+      version: "2.0",
       fecha: new Date().toISOString(),
       fotos,
     });
@@ -90,7 +90,7 @@ export async function importarBackup(json) {
 
 // ─── RUTAS ───────────────────────────────────────────────
 
-const CLAVE_RUTAS = 'rutas_v1';
+const CLAVE_RUTAS = "rutas_v1";
 
 export async function obtenerRutas() {
   try {
@@ -106,7 +106,7 @@ export async function guardarRuta(ruta) {
     const rutas = await obtenerRutas();
     const nueva = {
       id: Date.now().toString() + Math.random().toString(36).slice(2),
-      nombre: ruta.nombre || '',
+      nombre: ruta.nombre || "",
       transporte: ruta.transporte,
       puntos: ruta.puntos, // [{ latitude, longitude }]
       fecha: new Date().toISOString(),

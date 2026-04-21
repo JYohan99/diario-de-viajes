@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import * as Location from 'expo-location';
-import { obtenerFotos, obtenerRutas } from '../../almacenamiento';
+import { useState, useEffect } from "react";
+import * as Location from "expo-location";
+import { obtenerFotos, obtenerRutas } from "../../almacenamiento";
 
 export default function useMapa() {
   const [fotosConGPS, setFotosConGPS] = useState([]);
@@ -49,7 +49,7 @@ export default function useMapa() {
     setBuscandoUbicacion(true);
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
+      if (status !== "granted") {
         setBuscandoUbicacion(false);
         return;
       }
@@ -77,7 +77,7 @@ export default function useMapa() {
     regionInicial,
     miUbicacion,
     buscandoUbicacion,
-    
+
     // Funciones
     cargarDatos,
     irAMiUbicacion,

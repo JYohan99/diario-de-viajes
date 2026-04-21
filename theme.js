@@ -1,32 +1,32 @@
 // Cambiá los colores aquí y se actualizan en toda la app
 export const colores = {
   // Colores principales
-  primario: '#FF6B6B', // Rojo coral — botones principales, acentos
-  secundario: '#4ECDC4', // Turquesa — botones secundarios
-  acento: '#FFE66D', // Amarillo — destacados
+  primario: "#FF6B6B", // Rojo coral — botones principales, acentos
+  secundario: "#4ECDC4", // Turquesa — botones secundarios
+  acento: "#FFE66D", // Amarillo — destacados
 
   // Fondos
-  fondoOscuro: '#1A1A2E', // Fondo principal
-  fondoMedio: '#16213E', // Encabezados, barras
-  fondoTarjeta: '#0F3460', // Tarjetas, inputs
+  fondoOscuro: "#1A1A2E", // Fondo principal
+  fondoMedio: "#16213E", // Encabezados, barras
+  fondoTarjeta: "#0F3460", // Tarjetas, inputs
 
   // Textos
-  textoBlanco: '#FFFFFF',
-  textoGris: '#AAAAAA',
-  textoSutil: '#555555',
+  textoBlanco: "#FFFFFF",
+  textoGris: "#AAAAAA",
+  textoSutil: "#555555",
 
   // Estados
-  exito: '#4CAF50',
-  error: '#FF4444',
-  advertencia: '#FFA500',
+  exito: "#4CAF50",
+  error: "#FF4444",
+  advertencia: "#FFA500",
 
   // Bordes
-  borde: '#333333',
+  borde: "#333333",
 };
 
 export const tipografia = {
-  titulo: { fontSize: 22, fontWeight: 'bold', color: colores.textoBlanco },
-  subtitulo: { fontSize: 16, fontWeight: '600', color: colores.textoBlanco },
+  titulo: { fontSize: 22, fontWeight: "bold", color: colores.textoBlanco },
+  subtitulo: { fontSize: 16, fontWeight: "600", color: colores.textoBlanco },
   cuerpo: { fontSize: 14, color: colores.textoGris },
   pequeño: { fontSize: 12, color: colores.textoSutil },
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   Text,
@@ -7,17 +7,17 @@ import {
   Modal,
   TextInput,
   Alert,
-} from 'react-native';
-import { Polyline, Marker } from 'react-native-maps';
-import { Ionicons } from '@expo/vector-icons';
-import { colores, radios } from '../../theme';
+} from "react-native";
+import { Polyline, Marker } from "react-native-maps";
+import { Ionicons } from "@expo/vector-icons";
+import { colores, radios } from "../../theme";
 import {
   TRANSPORTES,
   colorTransporte,
   iconoTransporte,
   nombreTransporte,
-} from './constantes';
-import useRutas from '../../src/hooks/useRutas';
+} from "./constantes";
+import useRutas from "../../src/hooks/useRutas";
 
 // ─── PARTE DEL MAPA (solo elementos que van dentro de MapView) ───
 
@@ -39,7 +39,7 @@ export function RutasEnMapa({
               strokeColor={colorTransporte(ruta.transporte)}
               strokeWidth={4}
               lineDashPattern={
-                ruta.transporte === 'avion' ? [12, 6] : undefined
+                ruta.transporte === "avion" ? [12, 6] : undefined
               }
               tappable
               onPress={() => onPresarRuta(ruta)}
@@ -49,12 +49,14 @@ export function RutasEnMapa({
               <Marker
                 coordinate={ruta.puntos[0]}
                 anchor={{ x: 0.5, y: 0.5 }}
-                tracksViewChanges={false}>
+                tracksViewChanges={false}
+              >
                 <View
                   style={[
                     s.marcadorInicio,
                     { backgroundColor: colorTransporte(ruta.transporte) },
-                  ]}>
+                  ]}
+                >
                   <Text style={s.marcadorInicioIcono}>
                     {iconoTransporte(ruta.transporte)}
                   </Text>
@@ -81,7 +83,8 @@ export function RutasEnMapa({
             key={`punto_${i}`}
             coordinate={punto}
             anchor={{ x: 0.5, y: 0.5 }}
-            tracksViewChanges={false}>
+            tracksViewChanges={false}
+          >
             <View style={s.puntoRuta}>
               <Text style={s.puntoRutaTexto}>{i + 1}</Text>
             </View>
@@ -149,7 +152,8 @@ export function RutasUI({
             {puntosRuta.length > 0 && (
               <TouchableOpacity
                 style={s.botonRutaAcc}
-                onPress={() => setPuntosRuta((prev) => prev.slice(0, -1))}>
+                onPress={() => setPuntosRuta((prev) => prev.slice(0, -1))}
+              >
                 <Ionicons
                   name="backspace-outline"
                   size={20}
@@ -162,7 +166,8 @@ export function RutasUI({
               onPress={() => {
                 setModoRuta(false);
                 setPuntosRuta([]);
-              }}>
+              }}
+            >
               <Ionicons name="close" size={20} color={colores.error} />
             </TouchableOpacity>
             <TouchableOpacity
@@ -171,7 +176,8 @@ export function RutasUI({
                 puntosRuta.length < 2 && { opacity: 0.4 },
               ]}
               onPress={confirmarPuntos}
-              disabled={puntosRuta.length < 2}>
+              disabled={puntosRuta.length < 2}
+            >
               <Ionicons name="checkmark" size={22} color={colores.exito} />
             </TouchableOpacity>
           </View>
@@ -187,7 +193,8 @@ export function RutasUI({
               <TouchableOpacity
                 key={t.id}
                 style={[s.opcionTransporte, { borderLeftColor: t.color }]}
-                onPress={() => seleccionarTransporte(t)}>
+                onPress={() => seleccionarTransporte(t)}
+              >
                 <Text style={s.iconoT}>{t.icono}</Text>
                 <Text style={s.nombreT}>{t.nombre}</Text>
                 <View style={[s.bolita, { backgroundColor: t.color }]} />
@@ -195,7 +202,8 @@ export function RutasUI({
             ))}
             <TouchableOpacity
               style={s.botonCancelar}
-              onPress={() => setModalTransporte(false)}>
+              onPress={() => setModalTransporte(false)}
+            >
               <Text style={s.botonCancelarTexto}>Cancelar</Text>
             </TouchableOpacity>
           </View>
@@ -224,7 +232,8 @@ export function RutasUI({
                 onPress={() => {
                   setModalNombre(false);
                   setModalTransporte(true);
-                }}>
+                }}
+              >
                 <Text style={s.botonCancelarTexto}>‹ Volver</Text>
               </TouchableOpacity>
               <TouchableOpacity style={s.botonGuardar} onPress={finalizarRuta}>
@@ -240,7 +249,8 @@ export function RutasUI({
         <TouchableOpacity
           style={s.fondoModal}
           activeOpacity={1}
-          onPress={() => setModalVerRuta(false)}>
+          onPress={() => setModalVerRuta(false)}
+        >
           <TouchableOpacity activeOpacity={1} onPress={() => null}>
             <View style={s.tarjeta}>
               {rutaSeleccionada && (
@@ -250,7 +260,7 @@ export function RutasUI({
                       s.barraColor,
                       {
                         backgroundColor: colorTransporte(
-                          rutaSeleccionada.transporte
+                          rutaSeleccionada.transporte,
                         ),
                       },
                     ]}
@@ -262,8 +272,9 @@ export function RutasUI({
                       style={[
                         s.valorDetalle,
                         { color: colorTransporte(rutaSeleccionada.transporte) },
-                      ]}>
-                      {iconoTransporte(rutaSeleccionada.transporte)}{' '}
+                      ]}
+                    >
+                      {iconoTransporte(rutaSeleccionada.transporte)}{" "}
                       {nombreTransporte(rutaSeleccionada.transporte)}
                     </Text>
                   </View>
@@ -277,19 +288,20 @@ export function RutasUI({
                     <Text style={s.labelDetalle}>Fecha</Text>
                     <Text style={s.valorDetalle}>
                       {new Date(rutaSeleccionada.fecha).toLocaleDateString(
-                        'es-ES',
+                        "es-ES",
                         {
-                          day: '2-digit',
-                          month: 'long',
-                          year: 'numeric',
-                        }
+                          day: "2-digit",
+                          month: "long",
+                          year: "numeric",
+                        },
                       )}
                     </Text>
                   </View>
                   <View style={s.filaAcciones}>
                     <TouchableOpacity
                       style={s.botonEditar}
-                      onPress={() => abrirEditar(rutaSeleccionada)}>
+                      onPress={() => abrirEditar(rutaSeleccionada)}
+                    >
                       <Ionicons
                         name="create-outline"
                         size={18}
@@ -301,7 +313,8 @@ export function RutasUI({
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={s.botonEliminar}
-                      onPress={() => handleEliminar(rutaSeleccionada.id)}>
+                      onPress={() => handleEliminar(rutaSeleccionada.id)}
+                    >
                       <Ionicons name="trash-outline" size={18} color="#fff" />
                       <Text style={s.botonTexto}>Eliminar</Text>
                     </TouchableOpacity>
@@ -335,16 +348,18 @@ export function RutasUI({
                     s.chipTransporte,
                     editTransporte?.id === t.id && { backgroundColor: t.color },
                   ]}
-                  onPress={() => setEditTransporte(t)}>
+                  onPress={() => setEditTransporte(t)}
+                >
                   <Text style={s.chipIcono}>{t.icono}</Text>
                   <Text
                     style={[
                       s.chipNombre,
                       editTransporte?.id === t.id && {
-                        color: '#fff',
-                        fontWeight: 'bold',
+                        color: "#fff",
+                        fontWeight: "bold",
                       },
-                    ]}>
+                    ]}
+                  >
                     {t.nombre}
                   </Text>
                 </TouchableOpacity>
@@ -353,7 +368,8 @@ export function RutasUI({
             <View style={s.filaAcciones}>
               <TouchableOpacity
                 style={s.botonCancelar}
-                onPress={() => setModalEditarRuta(false)}>
+                onPress={() => setModalEditarRuta(false)}
+              >
                 <Text style={s.botonCancelarTexto}>Cancelar</Text>
               </TouchableOpacity>
               <TouchableOpacity style={s.botonGuardar} onPress={guardarEdicion}>
@@ -372,10 +388,10 @@ const s = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     borderWidth: 2,
-    borderColor: '#fff',
+    borderColor: "#fff",
     elevation: 4,
   },
   marcadorInicioIcono: { fontSize: 14 },
@@ -384,21 +400,21 @@ const s = StyleSheet.create({
     height: 26,
     borderRadius: 13,
     backgroundColor: colores.primario,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     borderWidth: 2,
-    borderColor: '#fff',
+    borderColor: "#fff",
     elevation: 4,
   },
-  puntoRutaTexto: { color: '#fff', fontSize: 11, fontWeight: 'bold' },
+  puntoRutaTexto: { color: "#fff", fontSize: 11, fontWeight: "bold" },
   barraRuta: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
     backgroundColor: colores.fondoMedio,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: 16,
     paddingBottom: 24,
     borderTopWidth: 1,
@@ -408,23 +424,23 @@ const s = StyleSheet.create({
   infoRuta: { flex: 1 },
   infoRutaTitulo: {
     color: colores.textoBlanco,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 15,
   },
   infoRutaSub: { color: colores.textoGris, fontSize: 12, marginTop: 2 },
-  botonesRuta: { flexDirection: 'row', gap: 10 },
+  botonesRuta: { flexDirection: "row", gap: 10 },
   botonRutaAcc: {
     width: 40,
     height: 40,
     borderRadius: 20,
     backgroundColor: colores.fondoTarjeta,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   fondoModal: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.7)',
-    justifyContent: 'flex-end',
+    backgroundColor: "rgba(0,0,0,0.7)",
+    justifyContent: "flex-end",
   },
   tarjeta: {
     backgroundColor: colores.fondoMedio,
@@ -435,14 +451,14 @@ const s = StyleSheet.create({
   },
   tarjetaTitulo: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colores.textoBlanco,
     marginBottom: 16,
   },
   barraColor: { height: 4, borderRadius: 2, marginBottom: 12 },
   filaDetalle: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: colores.borde,
@@ -450,8 +466,8 @@ const s = StyleSheet.create({
   labelDetalle: { color: colores.textoGris, fontSize: 13 },
   valorDetalle: { color: colores.textoBlanco, fontSize: 13 },
   opcionTransporte: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: colores.fondoTarjeta,
     borderRadius: radios.md,
     padding: 14,
@@ -477,54 +493,54 @@ const s = StyleSheet.create({
     borderColor: colores.borde,
     marginBottom: 4,
   },
-  filaAcciones: { flexDirection: 'row', gap: 12, marginTop: 16 },
+  filaAcciones: { flexDirection: "row", gap: 12, marginTop: 16 },
   botonCancelar: {
     flex: 1,
     backgroundColor: colores.fondoTarjeta,
     borderRadius: radios.md,
     padding: 14,
-    alignItems: 'center',
+    alignItems: "center",
   },
-  botonCancelarTexto: { color: colores.textoGris, fontWeight: 'bold' },
+  botonCancelarTexto: { color: colores.textoGris, fontWeight: "bold" },
   botonGuardar: {
     flex: 1,
     backgroundColor: colores.primario,
     borderRadius: radios.md,
     padding: 14,
-    alignItems: 'center',
+    alignItems: "center",
   },
   botonEditar: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 6,
     backgroundColor: colores.fondoTarjeta,
     borderRadius: radios.md,
     padding: 14,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     borderWidth: 1,
     borderColor: colores.primario,
   },
   botonEliminar: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 6,
     backgroundColor: colores.error,
     borderRadius: radios.md,
     padding: 14,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
-  botonTexto: { color: '#fff', fontWeight: 'bold', fontSize: 15 },
+  botonTexto: { color: "#fff", fontWeight: "bold", fontSize: 15 },
   grillaTransporte: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     gap: 8,
     marginBottom: 8,
   },
   chipTransporte: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 6,
     backgroundColor: colores.fondoTarjeta,
     borderRadius: radios.redondo,

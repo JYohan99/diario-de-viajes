@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef } from "react";
 import {
   StyleSheet,
   View,
@@ -9,14 +9,14 @@ import {
   FlatList,
   Dimensions,
   ActivityIndicator,
-} from 'react-native';
-import MapView, { Marker, PROVIDER_DEFAULT } from 'react-native-maps';
-import { Ionicons } from '@expo/vector-icons';
-import { colores, radios } from '../../theme';
-import useMapa from '../../src/hooks/useMapa';
-import { RutasEnMapa, RutasUI } from './RutasMapa';
+} from "react-native";
+import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
+import { Ionicons } from "@expo/vector-icons";
+import { colores, radios } from "../../theme";
+import useMapa from "../../src/hooks/useMapa";
+import { RutasEnMapa, RutasUI } from "./RutasMapa";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 
 export default function MapaPrincipal() {
   const mapRef = useRef(null);
@@ -31,7 +31,7 @@ export default function MapaPrincipal() {
     cargarDatos,
     irAMiUbicacion,
   } = useMapa();
-  
+
   // Estados de UI que quedan en el componente
   const [fotoAmpliada, setFotoAmpliada] = useState(null);
   const [indiceAmpliada, setIndiceAmpliada] = useState(0);
@@ -92,7 +92,8 @@ export default function MapaPrincipal() {
         provider={PROVIDER_DEFAULT}
         initialRegion={regionInicial}
         onPress={handlePressMapa}
-        onLongPress={handleLongPressMapa}>
+        onLongPress={handleLongPressMapa}
+      >
         {/* Rutas */}
         <RutasEnMapa
           rutas={rutas}
@@ -115,12 +116,12 @@ export default function MapaPrincipal() {
               title="📷 Foto"
               description={
                 foto.fecha
-                  ? new Date(foto.fecha).toLocaleDateString('es-ES', {
-                      day: '2-digit',
-                      month: 'long',
-                      year: 'numeric',
+                  ? new Date(foto.fecha).toLocaleDateString("es-ES", {
+                      day: "2-digit",
+                      month: "long",
+                      year: "numeric",
                     })
-                  : 'Sin fecha'
+                  : "Sin fecha"
               }
               onPress={() => abrirFoto(foto)}
               onCalloutPress={() => abrirFoto(foto)}
@@ -156,7 +157,7 @@ export default function MapaPrincipal() {
       <View style={s.contador}>
         <Ionicons name="images-outline" size={14} color={colores.textoBlanco} />
         <Text style={s.contadorTexto}>
-          {' '}
+          {" "}
           {fotosConGPS.length} fotos · {rutas.length} rutas
         </Text>
       </View>
@@ -169,7 +170,8 @@ export default function MapaPrincipal() {
         <TouchableOpacity
           style={s.botonFlotante}
           onPress={handleIrAMiUbicacion}
-          disabled={buscandoUbicacion}>
+          disabled={buscandoUbicacion}
+        >
           {buscandoUbicacion ? (
             <ActivityIndicator size="small" color={colores.primario} />
           ) : (
@@ -181,11 +183,12 @@ export default function MapaPrincipal() {
             s.botonFlotante,
             mostrarFotos && { backgroundColor: colores.primario },
           ]}
-          onPress={() => setMostrarFotos(!mostrarFotos)}>
+          onPress={() => setMostrarFotos(!mostrarFotos)}
+        >
           <Ionicons
             name="images-outline"
             size={20}
-            color={mostrarFotos ? '#fff' : colores.primario}
+            color={mostrarFotos ? "#fff" : colores.primario}
           />
         </TouchableOpacity>
         <TouchableOpacity
@@ -193,11 +196,12 @@ export default function MapaPrincipal() {
             s.botonFlotante,
             mostrarRutas && { backgroundColor: colores.primario },
           ]}
-          onPress={() => setMostrarRutas(!mostrarRutas)}>
+          onPress={() => setMostrarRutas(!mostrarRutas)}
+        >
           <Ionicons
             name="git-merge-outline"
             size={20}
-            color={mostrarRutas ? '#fff' : colores.primario}
+            color={mostrarRutas ? "#fff" : colores.primario}
           />
         </TouchableOpacity>
       </View>
@@ -209,7 +213,8 @@ export default function MapaPrincipal() {
           onPress={() => {
             setModoRuta(true);
             setPuntosRuta([]);
-          }}>
+          }}
+        >
           <Ionicons name="git-merge-outline" size={18} color="#fff" />
           <Text style={s.botonNuevaRutaTexto}>Nueva ruta</Text>
         </TouchableOpacity>
@@ -252,8 +257,9 @@ export default function MapaPrincipal() {
                     style={{
                       width,
                       height: height - 90,
-                      justifyContent: 'center',
-                    }}>
+                      justifyContent: "center",
+                    }}
+                  >
                     <Image
                       source={{ uri: item.uri }}
                       style={s.fotoCompleta}
@@ -272,7 +278,8 @@ export default function MapaPrincipal() {
               <View style={s.franjaInferior}>
                 <TouchableOpacity
                   style={s.botonCerrar}
-                  onPress={() => setFotoAmpliada(null)}>
+                  onPress={() => setFotoAmpliada(null)}
+                >
                   <Ionicons
                     name="close-circle-outline"
                     size={28}
@@ -282,20 +289,20 @@ export default function MapaPrincipal() {
                 </TouchableOpacity>
                 <View style={s.infoFranja}>
                   <Text style={s.infoFecha}>
-                    📅{' '}
+                    📅{" "}
                     {fotoAmpliada.fecha
                       ? new Date(fotoAmpliada.fecha).toLocaleDateString(
-                          'es-ES',
+                          "es-ES",
                           {
-                            day: '2-digit',
-                            month: 'long',
-                            year: 'numeric',
-                          }
+                            day: "2-digit",
+                            month: "long",
+                            year: "numeric",
+                          },
                         )
-                      : 'Sin fecha'}
+                      : "Sin fecha"}
                   </Text>
                   <Text style={s.infoGPS}>
-                    📍 {Number(fotoAmpliada.latitud).toFixed(4)},{' '}
+                    📍 {Number(fotoAmpliada.latitud).toFixed(4)},{" "}
                     {Number(fotoAmpliada.longitud).toFixed(4)}
                   </Text>
                   {fotoAmpliada.nota ? (
@@ -316,25 +323,25 @@ const s = StyleSheet.create({
   mapa: { flex: 1 },
   centrado: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: colores.fondoOscuro,
   },
   textoCargando: { color: colores.textoGris, marginTop: 12, fontSize: 14 },
   contador: {
-    position: 'absolute',
+    position: "absolute",
     top: 16,
     left: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.55)',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.55)",
     paddingHorizontal: 12,
     paddingVertical: 7,
     borderRadius: radios.redondo,
   },
   contadorTexto: { color: colores.textoBlanco, fontSize: 12 },
   botonesDerechaTop: {
-    position: 'absolute',
+    position: "absolute",
     top: 16,
     right: 16,
     gap: 8,
@@ -342,89 +349,89 @@ const s = StyleSheet.create({
   botonFlotante: {
     width: 44,
     height: 44,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 22,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     elevation: 5,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3,
   },
   botonNuevaRuta: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 24,
-    alignSelf: 'center',
-    flexDirection: 'row',
-    alignItems: 'center',
+    alignSelf: "center",
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
     backgroundColor: colores.primario,
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: radios.redondo,
     elevation: 5,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 3,
   },
-  botonNuevaRutaTexto: { color: '#fff', fontWeight: 'bold', fontSize: 14 },
+  botonNuevaRutaTexto: { color: "#fff", fontWeight: "bold", fontSize: 14 },
   aviso: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 80,
     left: 20,
     right: 20,
     backgroundColor: colores.fondoMedio,
     borderRadius: radios.lg,
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center",
     borderWidth: 1,
     borderColor: colores.borde,
   },
   avisoTitulo: {
     color: colores.textoBlanco,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 16,
     marginBottom: 6,
   },
   avisoSubtitulo: {
     color: colores.textoGris,
     fontSize: 13,
-    textAlign: 'center',
+    textAlign: "center",
     lineHeight: 20,
   },
   fondoFoto: {
     flex: 1,
-    backgroundColor: '#000',
-    justifyContent: 'space-between',
+    backgroundColor: "#000",
+    justifyContent: "space-between",
   },
   fotoCompleta: { width, height: height - 90 },
   contadorNav: {
-    position: 'absolute',
+    position: "absolute",
     top: 50,
-    alignSelf: 'center',
+    alignSelf: "center",
     zIndex: 10,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: "rgba(0,0,0,0.5)",
     paddingHorizontal: 12,
     paddingVertical: 4,
     borderRadius: 12,
   },
-  contadorNavTexto: { color: '#fff', fontSize: 13 },
+  contadorNavTexto: { color: "#fff", fontSize: 13 },
   franjaInferior: {
     height: 90,
     backgroundColor: colores.fondoMedio,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     borderTopWidth: 1,
     borderTopColor: colores.borde,
     paddingHorizontal: 12,
     gap: 12,
   },
-  botonCerrar: { alignItems: 'center' },
+  botonCerrar: { alignItems: "center" },
   textoFranja: { color: colores.textoGris, fontSize: 11, marginTop: 4 },
   infoFranja: { flex: 1, gap: 4 },
   infoFecha: { color: colores.textoBlanco, fontSize: 13 },
   infoGPS: { color: colores.secundario, fontSize: 12 },
-  infoNota: { color: colores.textoGris, fontSize: 12, fontStyle: 'italic' },
+  infoNota: { color: colores.textoGris, fontSize: 12, fontStyle: "italic" },
 });

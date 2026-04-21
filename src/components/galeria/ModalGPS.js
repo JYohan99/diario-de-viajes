@@ -1,40 +1,35 @@
-import React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Modal,
-} from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
-import { colores } from '../../../theme';
+import React from "react";
+import { View, Text, TouchableOpacity, Modal } from "react-native";
+import MapView, { Marker } from "react-native-maps";
+import { colores } from "../../../theme";
 
 const s = {
   contenedor: { flex: 1, backgroundColor: colores.fondoOscuro },
   encabezadoGPS: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 16,
     paddingTop: 50,
     backgroundColor: colores.fondoMedio,
     borderBottomWidth: 1,
     borderBottomColor: colores.borde,
   },
-  volverGPS: { color: colores.primario, fontSize: 16, fontWeight: 'bold' },
-  tituloGPS: { color: colores.textoBlanco, fontSize: 16, fontWeight: 'bold' },
+  volverGPS: { color: colores.primario, fontSize: 16, fontWeight: "bold" },
+  tituloGPS: { color: colores.textoBlanco, fontSize: 16, fontWeight: "bold" },
   instruccionGPS: {
     color: colores.textoGris,
     fontSize: 13,
-    textAlign: 'center',
+    textAlign: "center",
     padding: 10,
     backgroundColor: colores.fondoOscuro,
   },
   barraCoords: {
     backgroundColor: colores.fondoMedio,
     padding: 12,
-    alignItems: 'center',
+    alignItems: "center",
   },
-  textoCoordsGPS: { color: colores.primario, fontSize: 14, fontWeight: 'bold' },
+  textoCoordsGPS: { color: colores.primario, fontSize: 14, fontWeight: "bold" },
 };
 
 export default function ModalGPS({
@@ -52,9 +47,7 @@ export default function ModalGPS({
             <Text style={s.volverGPS}>‹ Cancelar</Text>
           </TouchableOpacity>
           <Text style={s.tituloGPS}>Elegir ubicación</Text>
-          <TouchableOpacity
-            onPress={onConfirmar}
-            disabled={!ubicacionTemp}>
+          <TouchableOpacity onPress={onConfirmar} disabled={!ubicacionTemp}>
             <Text style={[s.volverGPS, !ubicacionTemp && { opacity: 0.4 }]}>
               Confirmar
             </Text>
@@ -71,7 +64,8 @@ export default function ModalGPS({
             latitudeDelta: 5,
             longitudeDelta: 5,
           }}
-          onPress={onSeleccionarUbicacion}>
+          onPress={onSeleccionarUbicacion}
+        >
           {ubicacionTemp && (
             <Marker coordinate={ubicacionTemp} pinColor={colores.primario} />
           )}
@@ -79,7 +73,7 @@ export default function ModalGPS({
         {ubicacionTemp && (
           <View style={s.barraCoords}>
             <Text style={s.textoCoordsGPS}>
-              📍 {ubicacionTemp.latitude.toFixed(4)},{' '}
+              📍 {ubicacionTemp.latitude.toFixed(4)},{" "}
               {ubicacionTemp.longitude.toFixed(4)}
             </Text>
           </View>

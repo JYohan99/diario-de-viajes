@@ -1,7 +1,11 @@
-import { useState } from 'react';
-import { Alert } from 'react-native';
-import { guardarRuta, actualizarRuta, eliminarRuta } from '../../almacenamiento';
-import { TRANSPORTES } from '../../components/mapa/constantes';
+import { useState } from "react";
+import { Alert } from "react-native";
+import {
+  guardarRuta,
+  actualizarRuta,
+  eliminarRuta,
+} from "../../almacenamiento";
+import { TRANSPORTES } from "../../components/mapa/constantes";
 
 export default function useRutas({
   rutas,
@@ -17,8 +21,8 @@ export default function useRutas({
   const [modalNombre, setModalNombre] = useState(false);
   const [modalEditarRuta, setModalEditarRuta] = useState(false);
   const [transporteSeleccionado, setTransporteSeleccionado] = useState(null);
-  const [nombreRuta, setNombreRuta] = useState('');
-  const [editNombre, setEditNombre] = useState('');
+  const [nombreRuta, setNombreRuta] = useState("");
+  const [editNombre, setEditNombre] = useState("");
   const [editTransporte, setEditTransporte] = useState(null);
 
   // ─── CREAR ────────────────────────────────────────────
@@ -26,8 +30,8 @@ export default function useRutas({
   function confirmarPuntos() {
     if (puntosRuta.length < 2) {
       Alert.alert(
-        '⚠️ Faltan puntos',
-        'Agregá al menos 2 puntos para crear una ruta.'
+        "⚠️ Faltan puntos",
+        "Agregá al menos 2 puntos para crear una ruta.",
       );
       return;
     }
@@ -37,7 +41,7 @@ export default function useRutas({
   function seleccionarTransporte(t) {
     setTransporteSeleccionado(t);
     setModalTransporte(false);
-    setNombreRuta('');
+    setNombreRuta("");
     setModalNombre(true);
   }
 
@@ -53,8 +57,8 @@ export default function useRutas({
       setPuntosRuta([]);
       setTransporteSeleccionado(null);
       setModalNombre(false);
-      setNombreRuta('');
-      Alert.alert('✅ Ruta creada', `"${nueva.nombre}" fue guardada.`);
+      setNombreRuta("");
+      Alert.alert("✅ Ruta creada", `"${nueva.nombre}" fue guardada.`);
     }
   }
 
@@ -63,7 +67,7 @@ export default function useRutas({
   function abrirEditar(ruta) {
     setEditNombre(ruta.nombre);
     setEditTransporte(
-      TRANSPORTES.find((t) => t.id === ruta.transporte) || TRANSPORTES[0]
+      TRANSPORTES.find((t) => t.id === ruta.transporte) || TRANSPORTES[0],
     );
     setModalVerRuta(false);
     setModalEditarRuta(true);
@@ -77,22 +81,22 @@ export default function useRutas({
     });
     if (actualizada) {
       setRutas((prev) =>
-        prev.map((r) => (r.id === rutaSeleccionada.id ? actualizada : r))
+        prev.map((r) => (r.id === rutaSeleccionada.id ? actualizada : r)),
       );
     }
     setModalEditarRuta(false);
     setRutaSeleccionada(null);
-    Alert.alert('✅ Ruta actualizada');
+    Alert.alert("✅ Ruta actualizada");
   }
 
   // ─── ELIMINAR ────────────────────────────────────────────
 
   async function handleEliminar(id) {
-    Alert.alert('¿Eliminar ruta?', 'Esta acción no se puede deshacer.', [
-      { text: 'Cancelar', style: 'cancel' },
+    Alert.alert("¿Eliminar ruta?", "Esta acción no se puede deshacer.", [
+      { text: "Cancelar", style: "cancel" },
       {
-        text: 'Eliminar',
-        style: 'destructive',
+        text: "Eliminar",
+        style: "destructive",
         onPress: async () => {
           await eliminarRuta(id);
           setRutas((prev) => prev.filter((r) => r.id !== id));
@@ -116,7 +120,7 @@ export default function useRutas({
     setEditNombre,
     editTransporte,
     setEditTransporte,
-    
+
     // Funciones
     confirmarPuntos,
     seleccionarTransporte,
