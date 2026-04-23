@@ -89,7 +89,7 @@ export default function MapaPrincipal() {
       <MapView
         ref={mapRef}
         style={s.mapa}
-        provider={PROVIDER_DEFAULT}
+        provider={null}
         initialRegion={regionInicial}
         onPress={handlePressMapa}
         onLongPress={handleLongPressMapa}

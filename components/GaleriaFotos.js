@@ -260,7 +260,6 @@ export default function GaleriaFotos() {
       if (otrasSinGPS.length > 0) {
         Alert.alert(
           "📍 Aplicar ubicación",
-
           `¿Querés aplicar esta ubicación a otras fotos sin GPS? Hay ${otrasSinGPS.length} foto(s) sin ubicación.`,
 
           [
@@ -309,22 +308,16 @@ export default function GaleriaFotos() {
   async function eliminarUna(foto) {
     Alert.alert(
       "¿Eliminar foto?",
-
       "Se eliminará de la app, no de tu celular.",
-
       [
         { text: "Cancelar", style: "cancel" },
 
         {
           text: "Eliminar",
-
           style: "destructive",
-
           onPress: async () => {
             await eliminarFoto(foto.id);
-
             setFotos((prev) => prev.filter((f) => f.id !== foto.id));
-
             setFotoAmpliada(null);
           },
         },
@@ -336,7 +329,6 @@ export default function GaleriaFotos() {
 
   function renderMiniatura(foto) {
     const seleccionada = seleccionadas.includes(foto.id);
-
     const tieneGPS = foto.latitud && foto.longitud;
 
     return (
@@ -370,16 +362,13 @@ export default function GaleriaFotos() {
             const indice = fotosOrdenadas.findIndex((f) => f.id === foto.id);
 
             setIndiceAmpliada(indice >= 0 ? indice : 0);
-
             setFotosNavegacion(fotosOrdenadas);
-
             setFotoAmpliada(foto);
           }
         }}
         onLongPress={() => {
           if (!modoSeleccion) {
             setModoSeleccion(true);
-
             setSeleccionadas([foto.id]);
           }
         }}
@@ -403,7 +392,6 @@ export default function GaleriaFotos() {
   }
 
   // ─── VISTAS ────────────────────────────────────────────
-
   function renderContenido() {
     if (fotos.length === 0) {
       return (
@@ -442,7 +430,6 @@ export default function GaleriaFotos() {
               style={s.tarjetaCarpeta}
               onPress={() => {
                 setCarpetaAbierta(carpeta);
-
                 setVista("carpeta_detalle");
               }}
             >
@@ -486,7 +473,6 @@ export default function GaleriaFotos() {
             style={s.botonVolver}
             onPress={() => {
               setCarpetaAbierta(null);
-
               setVista("carpetas");
             }}
           >
@@ -515,12 +501,10 @@ export default function GaleriaFotos() {
         </View>
       );
     }
-
     return null;
   }
 
   // ─── RENDER ────────────────────────────────────────────
-
   if (cargando) {
     return (
       <View style={s.centrado}>
@@ -543,7 +527,6 @@ export default function GaleriaFotos() {
             <TouchableOpacity
               onPress={() => {
                 setModoSeleccion(false);
-
                 setSeleccionadas([]);
               }}
             >
@@ -591,7 +574,6 @@ export default function GaleriaFotos() {
               ]}
               onPress={() => {
                 setVista("carpetas");
-
                 setCarpetaAbierta(null);
               }}
             >
@@ -611,11 +593,9 @@ export default function GaleriaFotos() {
       </View>
 
       {/* Contenido */}
-
       <View style={{ flex: 1 }}>{renderContenido()}</View>
 
       {/* Botón flotante */}
-
       {!modoSeleccion && (
         <TouchableOpacity style={s.fab} onPress={importarFotos}>
           <Ionicons name="add" size={32} color="#fff" />
@@ -623,7 +603,6 @@ export default function GaleriaFotos() {
       )}
 
       {/* ── Modal foto ampliada con deslizamiento ── */}
-
       <Modal visible={!!fotoAmpliada} transparent={false} animationType="fade">
         <View style={s.fondoFoto}>
           {fotoAmpliada && (
@@ -637,18 +616,14 @@ export default function GaleriaFotos() {
                 initialScrollIndex={indiceAmpliada}
                 getItemLayout={(_, index) => ({
                   length: width,
-
                   offset: width * index,
-
                   index,
                 })}
                 onMomentumScrollEnd={(e) => {
                   const nuevoIndice = Math.round(
                     e.nativeEvent.contentOffset.x / width,
                   );
-
                   setIndiceAmpliada(nuevoIndice);
-
                   setFotoAmpliada(fotosNavegacion[nuevoIndice]);
                 }}
                 renderItem={({ item }) => (
@@ -671,7 +646,6 @@ export default function GaleriaFotos() {
               />
 
               {/* Contador */}
-
               {fotosNavegacion.length > 1 && (
                 <View style={s.contadorNav}>
                   <Text style={s.contadorNavTexto}>
@@ -681,7 +655,6 @@ export default function GaleriaFotos() {
               )}
 
               {/* Franja inferior */}
-
               <View style={s.franjaInferior}>
                 <TouchableOpacity
                   style={s.botonFranja}
@@ -877,9 +850,7 @@ export default function GaleriaFotos() {
             <Text
               style={{
                 color: colores.textoGris,
-
                 fontSize: 13,
-
                 marginBottom: 12,
               }}
             >
@@ -922,7 +893,6 @@ export default function GaleriaFotos() {
                 style={s.botonCancelar}
                 onPress={() => {
                   setModalAplicarGPS(false);
-
                   setSeleccionadasGPS([]);
                 }}
               >
